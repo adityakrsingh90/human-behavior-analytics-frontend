@@ -1,0 +1,17 @@
+/* Light mode */
+.light {
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* Dark mode */
+.dark {
+    background-color: #020617;
+    color: #e5e7eb;
+}
+
+.block-container { padding-top: 2rem; }
+[data-testid="metric-container"]{
+  background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:16px;
+}
+.stButton>button{border-radius:12px;height:44px;font-weight:600}
