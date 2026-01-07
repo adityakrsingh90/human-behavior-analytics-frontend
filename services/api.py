@@ -1,6 +1,7 @@
 import requests
 
-BASE_URL = "https://human-behavior-analytics-backend.onrender.com/api/v1"
+#BASE_URL = "https://human-behavior-analytics-backend.onrender.com/api/v1"
+BASE_URL = "http://127.0.0.1:8000/api/v1"
 
 def signup(email, password):
     return requests.post(
@@ -34,3 +35,10 @@ def send_feedback(token, payload):
         headers={"Authorization": f"Bearer {token}"},
         json=payload
     )
+
+def resend_verification_email(email):
+    return requests.post(
+        f"{BASE_URL}/auth/resend",
+        json={"email": email}
+    )
+

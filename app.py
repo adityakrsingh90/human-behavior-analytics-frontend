@@ -3,6 +3,10 @@ import streamlit as st
 with open("styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+query_params = st.query_params
+
+if query_params.get("type") == "signup":
+    st.success("✅ Email verified successfully! Please login.")
 
 # Auth
 from auth import login, signup
