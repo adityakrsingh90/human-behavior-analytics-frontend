@@ -29,12 +29,12 @@ def explain(token, features):
         json=features
     )
 
-def send_feedback(token, payload):
+def send_feedback(payload):
     return requests.post(
         f"{BASE_URL}/feedback",
-        headers={"Authorization": f"Bearer {token}"},
         json=payload
     )
+
 
 def resend_verification_email(email):
     return requests.post(

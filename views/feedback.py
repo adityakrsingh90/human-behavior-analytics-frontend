@@ -1,18 +1,52 @@
 import streamlit as st
 from services.api import send_feedback
 
-def show():
-    st.header("🗣️ Prediction Feedback")
 
-    prediction_id = st.text_input("Prediction ID")
-    accurate = st.radio("Was prediction accurate?", [True, False])
+def show():
+    st.title("💬 Share Your Feedback")
+    st.caption("Help us improve our predictions")
+
+    name = st.text_input("Your Name")
+    email = st.text_input("Email")
+    phone = st.text_input("Phone (optional)")
+
+    st.subheader("Prediction Accuracy")
+    accuracy = st.radio(
+        "Was the prediction accurate?",
+        ["Yes", "Partially", "No"]
+    )
+
+    accuracy_map = {
+        "Yes": True,
+        "No": False,
+        "Partially": None
+    }
+
+    rating = st.slider("How helpful was the prediction?", 1, 5, 3)
+
+    feedback = st.text_area(
+        "Additional Feedback / Suggestions",
+        placeholder="Tell us what worked well or what can be improved..."
+    )
 
     if st.button("Submit Feedback"):
-        send_feedback(
-            st.session_state["token"],
-            {
-                "prediction_id": prediction_id,
-                "is_accurate": accurate
-            }
-        )
-        st.success("Feedback submitted")
+        if not name or not email:
+            st.error("Name and Email are required")
+            return
+
+        payload = {
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "is_accurate": accuracy_map[accuracy],
+            "rating": rating,
+            "feedback": feedback
+        }
+
+        res = send_feedback(payload)
+
+        if res.status_code == 200:
+            st.success("🙏 Thank you for your feedback!")
+            st.balloons()
+        else:
+            st.error("Failed to submit feedback")
